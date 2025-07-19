@@ -1,0 +1,122 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  HOSPITAL_STAFF
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+model User {
+  id                String             @id @default(cuid())
+  email             String             @unique
+  password          String
+  name              String
+  hospitalName      String
+  role              UserRole           @default(HOSPITAL_STAFF)
+  verificationStatus VerificationStatus @default(PENDING)
+  
+  // 인증 정보
+  medicalLicenseNumber String?         @unique
+  businessNumber       String?         @unique
+  verificationDocuments String[]       // 인증 서류 파일 경로들
+  
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  
+  // Relations
+  reviews           Review[]
+  viewedReviews     ReviewView[]
+  
+  @@index([email])
+  @@index([verificationStatus])
+}
+
+model Coordinator {
+  id                String             @id @default(cuid())
+  name              String
+  hospitalName      String
+  position          String?            // 직책
+  department        String?            // 부서
+  phoneNumber       String?
+  email             String?
+  
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  
+  // Relations
+  reviews           Review[]
+  
+  @@index([name, hospitalName])
+}
+
+model Review {
+  id                String             @id @default(cuid())
+  
+  // 평가 대상
+  coordinatorId     String
+  coordinator       Coordinator        @relation(fields: [coordinatorId], references: [id])
+  
+  // 평가자
+  authorId          String
+  author            User               @relation(fields: [authorId], references: [id])
+  
+  // 평가 내용
+  rating            Int                // 1-5 점수
+  workYear          Int?               // 근무 연도
+  workDuration      String?            // 근무 기간
+  
+  // 세부 평가 항목들
+  professionalismRating   Int?         // 전문성
+  communicationRating     Int?         // 커뮤니케이션
+  responsibilityRating    Int?         // 책임감
+  cooperationRating       Int?         // 협업능력
+  
+  title             String
+  content           String             @db.Text
+  
+  // 익명성 옵션
+  isAnonymous       Boolean            @default(true)
+  
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  
+  // Relations
+  views             ReviewView[]
+  
+  @@index([coordinatorId])
+  @@index([authorId])
+  @@index([createdAt])
+}
+
+model ReviewView {
+  id                String             @id @default(cuid())
+  
+  reviewId          String
+  review            Review             @relation(fields: [reviewId], references: [id])
+  
+  viewerId          String
+  viewer            User               @relation(fields: [viewerId], references: [id])
+  
+  viewedAt          DateTime           @default(now())
+  
+  @@unique([reviewId, viewerId])
+  @@index([viewerId])
+}
