@@ -93,6 +93,10 @@ export class User {
     return this.isVerified
   }
 
+  get password(): string {
+    return this.props.password
+  }
+
   toJSON() {
     return {
       id: this.props.id.value,

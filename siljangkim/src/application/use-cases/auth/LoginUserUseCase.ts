@@ -27,7 +27,7 @@ export class LoginUserUseCase {
       throw new Error('Invalid email or password')
     }
 
-    const isPasswordValid = await bcrypt.compare(dto.password, user.toJSON().password || '')
+    const isPasswordValid = await bcrypt.compare(dto.password, user.password)
     if (!isPasswordValid) {
       throw new Error('Invalid email or password')
     }
