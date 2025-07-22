@@ -10,7 +10,6 @@ const mockReviews = [
     id: '1',
     coordinatorName: '김실장',
     hospitalName: '서울대병원',
-    rating: 4.5,
     title: '전문적이고 책임감 있는 실장님',
     content: '업무 처리가 매우 빠르고 정확합니다. 환자 응대도 친절하고 전문적입니다.',
     author: '익명',
@@ -19,12 +18,12 @@ const mockReviews = [
     communicationRating: 4,
     responsibilityRating: 5,
     cooperationRating: 4,
+    kindnessRating: 5,
   },
   {
     id: '2',
     coordinatorName: '이코디',
     hospitalName: '삼성서울병원',
-    rating: 3.5,
     title: '업무는 잘하시나 소통이 부족',
     content: '업무 능력은 좋으나 의료진과의 소통에서 가끔 문제가 있습니다.',
     author: '익명',
@@ -33,6 +32,7 @@ const mockReviews = [
     communicationRating: 3,
     responsibilityRating: 4,
     cooperationRating: 3,
+    kindnessRating: 3,
   },
 ]
 
@@ -110,7 +110,7 @@ export default function ReviewsPage() {
                     {review.coordinatorName} - {review.hospitalName}
                   </CardTitle>
                   <div className="mt-2">
-                    <Rating value={review.rating} readonly size="md" />
+                    <Rating value={Math.round((review.professionalismRating + review.communicationRating + review.responsibilityRating + review.cooperationRating + review.kindnessRating) / 5)} readonly size="md" />
                   </div>
                 </div>
                 <span className="text-sm text-gray-500">{review.createdAt}</span>
@@ -121,13 +121,13 @@ export default function ReviewsPage() {
               <p className="text-gray-600 mb-4">{review.content}</p>
               
               {/* 세부 평가 */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4 pt-4 border-t">
                 <div>
                   <span className="text-sm text-gray-500">전문성</span>
                   <Rating value={review.professionalismRating} readonly size="sm" />
                 </div>
                 <div>
-                  <span className="text-sm text-gray-500">커뮤니케이션</span>
+                  <span className="text-sm text-gray-500">소통능력</span>
                   <Rating value={review.communicationRating} readonly size="sm" />
                 </div>
                 <div>
@@ -137,6 +137,10 @@ export default function ReviewsPage() {
                 <div>
                   <span className="text-sm text-gray-500">협업능력</span>
                   <Rating value={review.cooperationRating} readonly size="sm" />
+                </div>
+                <div>
+                  <span className="text-sm text-gray-500">친절도</span>
+                  <Rating value={review.kindnessRating} readonly size="sm" />
                 </div>
               </div>
               

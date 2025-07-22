@@ -79,15 +79,15 @@ model Review {
   author            User               @relation(fields: [authorId], references: [id])
   
   // 평가 내용
-  rating            Int                // 1-5 점수
   workYear          Int?               // 근무 연도
   workDuration      String?            // 근무 기간
   
-  // 세부 평가 항목들
-  professionalismRating   Int?         // 전문성
-  communicationRating     Int?         // 커뮤니케이션
-  responsibilityRating    Int?         // 책임감
-  cooperationRating       Int?         // 협업능력
+  // 세부 평가 항목들 (모두 필수)
+  professionalismRating   Int          // 전문성 (1-5)
+  communicationRating     Int          // 소통능력 (1-5)
+  responsibilityRating    Int          // 책임감 (1-5)
+  cooperationRating       Int          // 협업능력 (1-5)
+  kindnessRating          Int          // 친절도 (1-5)
   
   title             String
   content           String             @db.Text

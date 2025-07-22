@@ -10,11 +10,11 @@ import { ReviewAccessService } from '../../../domain/services/ReviewAccessServic
 export interface CreateReviewDTO {
   coordinatorId: string
   ratings: {
-    overall: number
-    professionalism?: number
-    communication?: number
-    responsibility?: number
-    cooperation?: number
+    professionalism: number
+    communication: number
+    responsibility: number
+    cooperation: number
+    kindness: number
   }
   workYear?: number
   workDuration?: string
@@ -59,11 +59,11 @@ export class CreateReviewUseCase {
       coordinatorId,
       authorId: user.id,
       ratings: {
-        overall: Rating.create(dto.ratings.overall),
-        professionalism: dto.ratings.professionalism ? Rating.create(dto.ratings.professionalism) : undefined,
-        communication: dto.ratings.communication ? Rating.create(dto.ratings.communication) : undefined,
-        responsibility: dto.ratings.responsibility ? Rating.create(dto.ratings.responsibility) : undefined,
-        cooperation: dto.ratings.cooperation ? Rating.create(dto.ratings.cooperation) : undefined
+        professionalism: Rating.create(dto.ratings.professionalism),
+        communication: Rating.create(dto.ratings.communication),
+        responsibility: Rating.create(dto.ratings.responsibility),
+        cooperation: Rating.create(dto.ratings.cooperation),
+        kindness: Rating.create(dto.ratings.kindness)
       },
       workYear: dto.workYear,
       workDuration: dto.workDuration,

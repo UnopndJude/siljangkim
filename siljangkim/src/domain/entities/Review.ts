@@ -4,11 +4,11 @@ import { CoordinatorId } from '../value-objects/CoordinatorId'
 import { Rating } from '../value-objects/Rating'
 
 export interface ReviewRatings {
-  overall: Rating
-  professionalism?: Rating
-  communication?: Rating
-  responsibility?: Rating
-  cooperation?: Rating
+  professionalism: Rating
+  communication: Rating
+  responsibility: Rating
+  cooperation: Rating
+  kindness: Rating
 }
 
 export interface ReviewProps {
@@ -68,12 +68,12 @@ export class Review {
 
   get averageRating(): number {
     const ratings = [
-      this.props.ratings.overall.value,
-      this.props.ratings.professionalism?.value,
-      this.props.ratings.communication?.value,
-      this.props.ratings.responsibility?.value,
-      this.props.ratings.cooperation?.value
-    ].filter(r => r !== undefined) as number[]
+      this.props.ratings.professionalism.value,
+      this.props.ratings.communication.value,
+      this.props.ratings.responsibility.value,
+      this.props.ratings.cooperation.value,
+      this.props.ratings.kindness.value
+    ]
 
     return ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length
   }
@@ -102,11 +102,11 @@ export class Review {
       coordinatorId: this.props.coordinatorId.value,
       authorId: this.props.isAnonymous ? 'anonymous' : this.props.authorId.value,
       ratings: {
-        overall: this.props.ratings.overall.value,
-        professionalism: this.props.ratings.professionalism?.value,
-        communication: this.props.ratings.communication?.value,
-        responsibility: this.props.ratings.responsibility?.value,
-        cooperation: this.props.ratings.cooperation?.value
+        professionalism: this.props.ratings.professionalism.value,
+        communication: this.props.ratings.communication.value,
+        responsibility: this.props.ratings.responsibility.value,
+        cooperation: this.props.ratings.cooperation.value,
+        kindness: this.props.ratings.kindness.value
       },
       workYear: this.props.workYear,
       workDuration: this.props.workDuration,
