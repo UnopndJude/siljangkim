@@ -6,7 +6,17 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "typecheck": "tsc --noEmit",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy",
+    "prisma:studio": "prisma studio",
+    "docs:serve": "npx http-server docs -p 8080"
   },
   "keywords": [],
   "author": "",
@@ -39,5 +49,17 @@
     "eslint-config-next": "^15.4.2",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17"
+  },
+  "claude": {
+    "projectRules": ".claude/project-rules.md",
+    "projectContext": ".claude/context.md",
+    "instructions": ".claude/instructions.md",
+    "autoReadFiles": [
+      ".claude/project-rules.md",
+      ".claude/context.md", 
+      ".claude/instructions.md",
+      "docs/technical-spec.md",
+      "CLAUDE.md"
+    ]
   }
 }
