@@ -1,0 +1,13 @@
+{
+  "extends": "../domain/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@agently/domain": ["../domain/src"],
+      "@agently/domain/*": ["../domain/src/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

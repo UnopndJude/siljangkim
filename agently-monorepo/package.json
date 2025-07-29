@@ -1,0 +1,29 @@
+{
+  "name": "agently-monorepo",
+  "private": true,
+  "description": "Agently 병원 평가 플랫폼 Monorepo",
+  "scripts": {
+    "dev": "pnpm --parallel --filter=\"./apps/*\" dev",
+    "dev:siljang": "pnpm --filter siljangkim dev",
+    "dev:wonjang": "pnpm --filter wonjangkim dev",
+    "build": "pnpm --filter=\"./packages/*\" build && pnpm --filter=\"./apps/*\" build",
+    "lint": "pnpm --filter=\"./packages/*\" lint && pnpm --filter=\"./apps/*\" lint",
+    "test": "pnpm --filter=\"./packages/*\" test && pnpm --filter=\"./apps/*\" test",
+    "typecheck": "pnpm --filter=\"./packages/*\" typecheck && pnpm --filter=\"./apps/*\" typecheck",
+    "db:generate": "pnpm --filter=\"@agently/infrastructure\" db:generate",
+    "db:push": "pnpm --filter=\"@agently/infrastructure\" db:push",
+    "db:migrate": "pnpm --filter=\"@agently/infrastructure\" db:migrate",
+    "clean": "pnpm --filter=\"./packages/*\" clean && pnpm --filter=\"./apps/*\" clean"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "typescript": "^5.5.3",
+    "eslint": "^8.57.0",
+    "prettier": "^3.3.2"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.5.0"
+}

@@ -1,0 +1,21 @@
+{
+  "name": "@agently/domain",
+  "version": "1.0.0",
+  "description": "Domain models and business rules",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src/**/*.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@types/uuid": "^9.0.0",
+    "typescript": "^5.5.3",
+    "eslint": "^8.57.0"
+  }
+}

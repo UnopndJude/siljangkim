@@ -1,0 +1,22 @@
+{
+  "name": "@agently/application",
+  "version": "1.0.0",
+  "description": "Application services and use cases",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src/**/*.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@agently/domain": "workspace:*",
+    "bcryptjs": "^2.4.3"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20.14.10",  
+    "typescript": "^5.5.3",
+    "eslint": "^8.57.0"
+  }
+}
