@@ -13,8 +13,8 @@ export default function Footer() {
               <span className="text-xl">💖</span>
             </div>
             <p className="text-gray-600 text-sm mb-4">
-              여성을 위한 병원 리뷰 플랫폼<br />
-              믿을 수 있는 정보로 건강한 선택을
+              의료계 종사자들을 위한 커뮤니티<br />
+              신뢰할 수 있는 동료 평가 플랫폼
             </p>
             <div className="flex space-x-3">
               <button className="p-2 bg-primary-50 hover:bg-primary-100 rounded-full transition-colors">
@@ -37,17 +37,17 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link href="/search" className="text-gray-600 hover:text-primary-500 transition-colors text-sm">
-                  병원 검색
+                  동료 찾기
                 </Link>
               </li>
               <li>
                 <Link href="/reviews" className="text-gray-600 hover:text-primary-500 transition-colors text-sm">
-                  리뷰 보기
+                  평가 보기
                 </Link>
               </li>
               <li>
                 <Link href="/write-review" className="text-gray-600 hover:text-primary-500 transition-colors text-sm">
-                  리뷰 작성
+                  평가 작성
                 </Link>
               </li>
               <li>
@@ -61,7 +61,7 @@ export default function Footer() {
           {/* Community */}
           <div>
             <h4 className="font-semibold text-gray-800 mb-4 flex items-center gap-1">
-              커뮤니티 <span>👭</span>
+              커뮤니티 <span>👩‍⚕️</span>
             </h4>
             <ul className="space-y-2">
               <li>
@@ -76,12 +76,12 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/community/tips" className="text-gray-600 hover:text-primary-500 transition-colors text-sm">
-                  건강 팁
+                  전문 지식
                 </Link>
               </li>
               <li>
                 <Link href="/community/experiences" className="text-gray-600 hover:text-primary-500 transition-colors text-sm">
-                  경험 공유
+                  업무 경험
                 </Link>
               </li>
             </ul>

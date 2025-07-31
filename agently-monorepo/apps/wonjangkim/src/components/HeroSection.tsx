@@ -30,22 +30,22 @@ export default function HeroSection() {
         </div>
         
         <h1 className="text-5xl md:text-6xl font-bold mb-6">
-          <span className="text-gradient">여성을 위한</span>
+          <span className="text-gradient">의료계 종사자들을 위한</span>
           <br />
-          <span className="text-gray-800">믿을 수 있는 병원 정보</span>
+          <span className="text-gray-800">신뢰할 수 있는 커뮤니티</span>
         </h1>
         
         <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-          실제 경험자들의 솔직한 리뷰와 함께<br />
-          나에게 딱 맞는 병원을 찾아보세요 💕
+          의사, 원장, 의료진들의 솔직한 경험담과 함께<br />
+          더 나은 의료 환경을 만들어가요 💕
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <button className="px-8 py-4 bg-gradient-pink-purple text-white rounded-full font-medium shadow-soft hover:shadow-soft-lg transition-all transform hover:scale-105 text-lg">
-            병원 찾기 시작하기 🔍
+            커뮤니티 둘러보기 🔍
           </button>
           <button className="px-8 py-4 bg-white text-primary-500 rounded-full font-medium shadow-soft hover:shadow-soft-lg transition-all transform hover:scale-105 text-lg border-2 border-primary-200">
-            리뷰 작성하기 ✍️
+            평가 작성하기 ✍️
           </button>
         </div>
 

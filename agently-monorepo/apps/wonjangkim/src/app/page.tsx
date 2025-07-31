@@ -1,7 +1,7 @@
 import Header from '@/components/Header'
 import HeroSection from '@/components/HeroSection'
 import SearchSection from '@/components/SearchSection'
-import HospitalGrid from '@/components/HospitalGrid'
+import DoctorGrid from '@/components/DoctorGrid'
 import ReviewSection from '@/components/ReviewSection'
 import Footer from '@/components/Footer'
 
@@ -12,7 +12,7 @@ export default function HomePage() {
       <main>
         <HeroSection />
         <SearchSection />
-        <HospitalGrid />
+        <DoctorGrid />
         <ReviewSection />
       </main>
       <Footer />

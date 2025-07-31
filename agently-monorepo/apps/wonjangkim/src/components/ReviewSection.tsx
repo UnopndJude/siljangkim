@@ -5,36 +5,36 @@ import { Star, ThumbsUp, MessageCircle } from 'lucide-react'
 const reviews = [
   {
     id: 1,
-    hospitalName: '루미너스 피부과',
+    doctorName: '김원장',
     userName: '김*진',
     rating: 5,
     date: '2024-01-15',
-    treatment: '여드름 치료',
-    content: '여의사 선생님이 정말 꼼꼼하게 봐주셔서 좋았어요! 피부가 많이 좋아졌습니다 ✨',
+    specialty: '피부과',
+    content: '전문성이 뛰어나고 환자와의 소통도 원활해요. 함께 일하기 좋은 동료입니다 ✨',
     likes: 24,
     comments: 5,
     emoji: '😊',
   },
   {
     id: 2,
-    hospitalName: '블룸 산부인과',
-    userName: '이*영',
+    doctorName: '이원장',
+    userName: '최*수',
     rating: 5,
     date: '2024-01-12',
-    treatment: '정기검진',
-    content: '대기시간도 짧고 선생님도 친절하세요. 편안한 분위기에서 진료받을 수 있어요 💕',
+    specialty: '산부인과',
+    content: '책임감이 강하고 팀워크가 훌륭합니다. 대학병원에서 하나의 모범 사례예요 💕',
     likes: 18,
     comments: 3,
     emoji: '🥰',
   },
   {
     id: 3,
-    hospitalName: '마음편한 정신건강의학과',
-    userName: '박*희',
+    doctorName: '정원장',
+    userName: '김*진',
     rating: 4,
     date: '2024-01-10',
-    treatment: '상담치료',
-    content: '처음엔 긴장했는데 선생님이 편하게 대해주셔서 마음 편히 상담받았어요',
+    specialty: '정신건강의학과',
+    content: '전문 지식이 풍부하고 동료들과의 협업도 원활합니다. 의료진으로서 신뢰할 수 있어요',
     likes: 32,
     comments: 8,
     emoji: '🤗',
@@ -47,10 +47,10 @@ export default function ReviewSection() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4">
-            <span className="text-gradient">실시간 리뷰</span> 💬
+            <span className="text-gradient">실시간 평가</span> 💬
           </h2>
           <p className="text-gray-600 text-lg">
-            최근에 작성된 솔직한 병원 후기들
+            의료계 동료들에 대한 솔직한 평가들
           </p>
         </div>
 
@@ -63,8 +63,8 @@ export default function ReviewSection() {
               {/* Header */}
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h4 className="font-bold text-lg text-primary-600">{review.hospitalName}</h4>
-                  <p className="text-sm text-gray-500">{review.treatment}</p>
+                  <h4 className="font-bold text-lg text-primary-600">{review.doctorName}</h4>
+                  <p className="text-sm text-gray-500">{review.specialty}</p>
                 </div>
                 <span className="text-2xl">{review.emoji}</span>
               </div>
@@ -108,13 +108,13 @@ export default function ReviewSection() {
 
         <div className="mt-12 bg-gradient-to-r from-primary-50 to-secondary-50 rounded-3xl p-8 text-center">
           <h3 className="text-2xl font-bold mb-4">
-            나의 병원 경험을 공유해주세요! 💝
+            동료 평가를 공유해주세요! 💝
           </h3>
           <p className="text-gray-600 mb-6">
-            솔직한 리뷰로 다른 여성들에게 도움을 주세요
+            솔직한 평가로 다른 의료진들에게 도움을 주세요
           </p>
           <button className="px-8 py-4 bg-white text-primary-500 rounded-full font-medium shadow-soft hover:shadow-soft-lg transition-all transform hover:scale-105 border-2 border-primary-200">
-            리뷰 작성하기 ✍️
+            평가 작성하기 ✍️
           </button>
         </div>
       </div>

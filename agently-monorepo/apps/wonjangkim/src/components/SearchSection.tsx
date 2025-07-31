@@ -17,7 +17,7 @@ export default function SearchSection() {
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-3xl shadow-soft p-8">
           <h2 className="text-3xl font-bold text-center mb-8">
-            <span className="text-gradient">어떤 병원</span>을 찾으세요? 🏥
+            <span className="text-gradient">어떤 동료</span>를 찾으세요? 👩‍⚕️
           </h2>
 
           <div className="space-y-4">
@@ -26,7 +26,7 @@ export default function SearchSection() {
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="병원명, 진료과목, 지역으로 검색해보세요"
+                placeholder="의사명, 진료과목, 병원명으로 검색해보세요"
                 className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-primary-100 focus:border-primary-300 focus:outline-none transition-colors"
               />
             </div>
@@ -42,6 +42,8 @@ export default function SearchSection() {
                   <option>서초구</option>
                   <option>송파구</option>
                   <option>마포구</option>
+                  <option>용산구</option>
+                  <option>중구</option>
                 </select>
               </div>
 
@@ -55,6 +57,8 @@ export default function SearchSection() {
                   <option>산부인과</option>
                   <option>내과</option>
                   <option>정신건강의학과</option>
+                  <option>치과</option>
+                  <option>안과</option>
                 </select>
               </div>
             </div>
@@ -66,7 +70,7 @@ export default function SearchSection() {
 
           {/* Popular Specialties */}
           <div className="mt-8 pt-8 border-t border-gray-100">
-            <p className="text-sm text-gray-600 mb-4">인기 진료과목</p>
+            <p className="text-sm text-gray-600 mb-4">인기 전문 분야</p>
             <div className="flex flex-wrap gap-2">
               {popularSpecialties.map((specialty) => (
                 <button
