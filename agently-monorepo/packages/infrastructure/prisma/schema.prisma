@@ -62,7 +62,26 @@ model Coordinator {
   updatedAt         DateTime           @updatedAt
   
   // Relations
-  reviews           Review[]
+  coordinatorReviews Review[]          @relation("CoordinatorReviews")
+  
+  @@index([name, hospitalName])
+}
+
+model Doctor {
+  id                String             @id @default(cuid())
+  name              String
+  hospitalName      String
+  position          String?            // 직책 (원장, 과장 등)
+  department        String?            // 진료과
+  phoneNumber       String?
+  email             String?
+  specialties       String[]           // 전문 분야
+  
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  
+  // Relations
+  doctorReviews     Review[]           @relation("DoctorReviews")
   
   @@index([name, hospitalName])
 }
@@ -70,9 +89,14 @@ model Coordinator {
 model Review {
   id                String             @id @default(cuid())
   
-  // 평가 대상
-  coordinatorId     String
-  coordinator       Coordinator        @relation(fields: [coordinatorId], references: [id])
+  // 평가 대상 (Coordinator 또는 Doctor)
+  coordinatorId     String?
+  coordinator       Coordinator?       @relation("CoordinatorReviews", fields: [coordinatorId], references: [id])
+  
+  doctorId          String?
+  doctor            Doctor?            @relation("DoctorReviews", fields: [doctorId], references: [id])
+  
+  targetType        String             // 'coordinator' 또는 'doctor'
   
   // 평가자
   authorId          String
@@ -102,8 +126,10 @@ model Review {
   views             ReviewView[]
   
   @@index([coordinatorId])
+  @@index([doctorId])
   @@index([authorId])
   @@index([createdAt])
+  @@index([targetType])
 }
 
 model ReviewView {

@@ -1,19 +1,21 @@
 import { ReviewId } from '../value-objects/ReviewId'
 import { UserId } from '../value-objects/UserId'
 import { CoordinatorId } from '../value-objects/CoordinatorId'
+import { DoctorId } from '../value-objects/DoctorId'
 import { Rating } from '../value-objects/Rating'
 
 export interface ReviewRatings {
-  overall: Rating
-  professionalism?: Rating
-  communication?: Rating
-  responsibility?: Rating
-  cooperation?: Rating
+  professionalism: Rating    // 전문성
+  communication: Rating      // 소통능력
+  responsibility: Rating     // 책임감
+  cooperation: Rating        // 협업능력
+  kindness: Rating          // 친절도
 }
 
 export interface ReviewProps {
   id: ReviewId
-  coordinatorId: CoordinatorId
+  targetId: CoordinatorId | DoctorId  // 평가 대상 ID (Coordinator 또는 Doctor)
+  targetType: 'coordinator' | 'doctor'  // 평가 대상 타입
   authorId: UserId
   ratings: ReviewRatings
   workYear?: number
@@ -42,8 +44,12 @@ export class Review {
     return this.props.id
   }
 
-  get coordinatorId(): CoordinatorId {
-    return this.props.coordinatorId
+  get targetId(): CoordinatorId | DoctorId {
+    return this.props.targetId
+  }
+
+  get targetType(): 'coordinator' | 'doctor' {
+    return this.props.targetType
   }
 
   get authorId(): UserId {
@@ -68,12 +74,12 @@ export class Review {
 
   get averageRating(): number {
     const ratings = [
-      this.props.ratings.overall.value,
-      this.props.ratings.professionalism?.value,
-      this.props.ratings.communication?.value,
-      this.props.ratings.responsibility?.value,
-      this.props.ratings.cooperation?.value
-    ].filter(r => r !== undefined) as number[]
+      this.props.ratings.professionalism.value,
+      this.props.ratings.communication.value,
+      this.props.ratings.responsibility.value,
+      this.props.ratings.cooperation.value,
+      this.props.ratings.kindness.value
+    ]
 
     return ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length
   }
@@ -99,14 +105,17 @@ export class Review {
   toJSON() {
     return {
       id: this.props.id.value,
-      coordinatorId: this.props.coordinatorId.value,
+      targetId: this.props.targetId instanceof CoordinatorId 
+        ? this.props.targetId.value 
+        : this.props.targetId.value,
+      targetType: this.props.targetType,
       authorId: this.props.isAnonymous ? 'anonymous' : this.props.authorId.value,
       ratings: {
-        overall: this.props.ratings.overall.value,
-        professionalism: this.props.ratings.professionalism?.value,
-        communication: this.props.ratings.communication?.value,
-        responsibility: this.props.ratings.responsibility?.value,
-        cooperation: this.props.ratings.cooperation?.value
+        professionalism: this.props.ratings.professionalism.value,
+        communication: this.props.ratings.communication.value,
+        responsibility: this.props.ratings.responsibility.value,
+        cooperation: this.props.ratings.cooperation.value,
+        kindness: this.props.ratings.kindness.value
       },
       workYear: this.props.workYear,
       workDuration: this.props.workDuration,
