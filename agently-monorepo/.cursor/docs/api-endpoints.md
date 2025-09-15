@@ -1,14 +1,17 @@
-# API 문서 (API Documentation)
+# API 엔드포인트
 
-## API 개요
+## 기본 정보
 
-### 기본 정보
-- **Base URL**: `https://api.agently.com/v1`
-- **인증 방식**: JWT Bearer Token
-- **응답 형식**: JSON
-- **문자 인코딩**: UTF-8
+### Base URL
+- **개발**: `http://localhost:3000/api`
+- **스테이징**: `https://staging-api.agently.com/api`
+- **프로덕션**: `https://api.agently.com/api`
 
-### 공통 응답 형식
+### 인증 방식
+- **JWT Bearer Token** 사용
+- **Header**: `Authorization: Bearer <token>`
+
+### 응답 형식
 ```typescript
 interface ApiResponse<T> {
   success: boolean;
@@ -81,6 +84,12 @@ Content-Type: application/json
 }
 ```
 
+### 4. 로그아웃
+```http
+POST /auth/logout
+Authorization: Bearer <token>
+```
+
 ## 사용자 API
 
 ### 1. 사용자 프로필 조회
@@ -124,10 +133,7 @@ Content-Type: application/json
   "introduction": "내과 전문의입니다.",
   "availableHours": {
     "monday": ["09:00-18:00"],
-    "tuesday": ["09:00-18:00"],
-    "wednesday": ["09:00-18:00"],
-    "thursday": ["09:00-18:00"],
-    "friday": ["09:00-18:00"]
+    "tuesday": ["09:00-18:00"]
   }
 }
 ```
@@ -171,6 +177,20 @@ GET /doctors/{doctorId}
 Authorization: Bearer <token>
 ```
 
+### 4. 의사 정보 수정
+```http
+PUT /doctors/{doctorId}
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "introduction": "수정된 자기소개",
+  "availableHours": {
+    "monday": ["09:00-17:00"]
+  }
+}
+```
+
 ## 코디네이터 API
 
 ### 1. 코디네이터 등록
@@ -193,6 +213,12 @@ Content-Type: application/json
 ### 2. 코디네이터 목록 조회
 ```http
 GET /coordinators?specialty=internal&page=1&limit=10
+Authorization: Bearer <token>
+```
+
+### 3. 코디네이터 상세 조회
+```http
+GET /coordinators/{coordinatorId}
 Authorization: Bearer <token>
 ```
 
@@ -341,6 +367,30 @@ GET /search/suggestions?q=내과&type=doctor
 Authorization: Bearer <token>
 ```
 
+### 3. 고급 검색
+```http
+POST /search/advanced
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "specialty": ["internal", "surgery"],
+  "location": {
+    "city": "seoul",
+    "district": "gangnam",
+    "radius": 10
+  },
+  "rating": {
+    "min": 4.0,
+    "max": 5.0
+  },
+  "experience": {
+    "minYears": 5,
+    "maxYears": 20
+  }
+}
+```
+
 ## 파일 업로드 API
 
 ### 1. 이미지 업로드
@@ -366,121 +416,113 @@ type: profile|review
 }
 ```
 
-## 에러 코드
-
-### 인증 관련 에러
-- `AUTH_001`: 인증 토큰이 없습니다
-- `AUTH_002`: 토큰이 만료되었습니다
-- `AUTH_003`: 유효하지 않은 토큰입니다
-- `AUTH_004`: 권한이 없습니다
-
-### 데이터 관련 에러
-- `DATA_001`: 필수 필드가 누락되었습니다
-- `DATA_002`: 중복된 데이터입니다
-- `DATA_003`: 데이터를 찾을 수 없습니다
-- `DATA_004`: 유효하지 않은 데이터 형식입니다
-
-### 비즈니스 로직 에러
-- `BIZ_001`: 리뷰 작성 권한이 없습니다
-- `BIZ_002`: 매칭이 불가능합니다
-- `BIZ_003`: 유효하지 않은 의료 라이선스입니다
-- `BIZ_004`: 리뷰 수정 권한이 없습니다
-
-## Rate Limiting
-
-### 제한 사항
-- **일반 API**: 1000 requests/hour per IP
-- **인증 API**: 10 requests/hour per IP
-- **파일 업로드**: 50 requests/hour per user
-- **리뷰 작성**: 10 requests/day per user
-
-### 응답 헤더
+### 2. 파일 삭제
 ```http
-X-RateLimit-Limit: 1000
-X-RateLimit-Remaining: 999
-X-RateLimit-Reset: 1640995200
+DELETE /upload/{fileId}
+Authorization: Bearer <token>
 ```
 
-## 웹훅 (Webhooks)
+## 알림 API
 
-### 1. 리뷰 작성 알림
+### 1. 알림 목록 조회
 ```http
-POST /webhooks/review-created
+GET /notifications?page=1&limit=10&unreadOnly=true
+Authorization: Bearer <token>
+```
+
+### 2. 알림 읽음 처리
+```http
+PUT /notifications/{notificationId}/read
+Authorization: Bearer <token>
+```
+
+### 3. 알림 설정 조회
+```http
+GET /notifications/settings
+Authorization: Bearer <token>
+```
+
+### 4. 알림 설정 수정
+```http
+PUT /notifications/settings
+Authorization: Bearer <token>
 Content-Type: application/json
-X-Webhook-Signature: <signature>
 
 {
-  "event": "review.created",
-  "data": {
-    "reviewId": "review_123",
-    "targetId": "doctor_456",
-    "targetType": "doctor",
-    "rating": 5,
-    "authorId": "user_789"
-  },
-  "timestamp": "2024-01-01T00:00:00Z"
+  "email": true,
+  "push": false,
+  "sms": true,
+  "types": {
+    "review": true,
+    "matching": true,
+    "system": false
+  }
 }
 ```
 
-### 2. 매칭 상태 변경 알림
+## 관리자 API
+
+### 1. 사용자 관리
 ```http
-POST /webhooks/matching-status-changed
+GET /admin/users?page=1&limit=10&role=doctor
+Authorization: Bearer <admin_token>
+
+PUT /admin/users/{userId}/status
+Authorization: Bearer <admin_token>
 Content-Type: application/json
-X-Webhook-Signature: <signature>
 
 {
-  "event": "matching.status_changed",
-  "data": {
-    "matchingId": "matching_123",
-    "status": "approved",
-    "coordinatorId": "coordinator_456",
-    "doctorId": "doctor_789"
-  },
-  "timestamp": "2024-01-01T00:00:00Z"
+  "status": "active|inactive|suspended"
 }
 ```
 
-## SDK 및 예제
+### 2. 리뷰 관리
+```http
+GET /admin/reviews?status=pending&page=1&limit=10
+Authorization: Bearer <admin_token>
 
-### JavaScript/TypeScript SDK
-```typescript
-import { AgentlyClient } from '@agently/sdk';
+PUT /admin/reviews/{reviewId}/approve
+Authorization: Bearer <admin_token>
 
-const client = new AgentlyClient({
-  apiKey: 'your_api_key',
-  baseUrl: 'https://api.agently.com/v1'
-});
+PUT /admin/reviews/{reviewId}/reject
+Authorization: Bearer <admin_token>
+Content-Type: application/json
 
-// 사용자 등록
-const user = await client.auth.register({
-  email: 'user@example.com',
-  password: 'password123!',
-  name: '홍길동',
-  role: 'patient'
-});
-
-// 의사 목록 조회
-const doctors = await client.doctors.list({
-  specialty: 'internal',
-  location: 'seoul',
-  page: 1,
-  limit: 10
-});
+{
+  "reason": "부적절한 내용"
+}
 ```
 
-### cURL 예제
-```bash
-# 사용자 등록
-curl -X POST https://api.agently.com/v1/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "user@example.com",
-    "password": "password123!",
-    "name": "홍길동",
-    "role": "patient"
-  }'
-
-# 의사 목록 조회
-curl -X GET "https://api.agently.com/v1/doctors?specialty=internal&page=1&limit=10" \
-  -H "Authorization: Bearer your_token_here"
+### 3. 시스템 통계
+```http
+GET /admin/statistics
+Authorization: Bearer <admin_token>
 ```
+
+**응답:**
+```json
+{
+  "success": true,
+  "data": {
+    "users": {
+      "total": 1000,
+      "doctors": 200,
+      "coordinators": 150,
+      "patients": 650
+    },
+    "reviews": {
+      "total": 5000,
+      "pending": 50,
+      "approved": 4900,
+      "rejected": 50
+    },
+    "matchings": {
+      "total": 1000,
+      "pending": 100,
+      "approved": 800,
+      "rejected": 100
+    }
+  }
+}
+```
+
